@@ -1,89 +1,69 @@
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
 export const Container = styled.div`
-  position: relative;
-  height: 100%;
-  padding: 0.2rem;
-  padding-bottom: 0.5rem;
-  overflow: hidden;
-`
-export const MessageArea = styled.div`
+  overflow-y: scroll;
+  min-height: min-content;
+  min-height: --webkit-min-content;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-end;
-  height: 87%;
-  margin-bottom: 0.2rem;
-  padding: 0.3rem;
+  padding: 0.2rem 0.5rem 1rem;
+  & > :first-child {
+    margin-top: auto !important;
+  }
 `
-export const SendContainer = styled(motion.form)`
-  background: ${({ theme }) => theme.background.active};
-  width: 85%;
-  margin-inline: auto;
-  border-radius: 0.5rem;
+export const SingleMessage = styled.div`
   display: flex;
-  align-items: center;
-  padding: 0.4rem 0.5rem;
-
-  div {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
+  flex-wrap: wrap;
+  & > * {
+    min-width: 0;
   }
-`
-export const Input = styled.input`
-  flex: 1;
-  background: none;
-  padding: 0.2rem;
-  color: ${({ theme }) => theme.colors.secondary};
-  font-size: 1.1rem;
-  padding-left: 0.5rem;
-  font-family: inherit;
-  &::placeholder {
-    font-size: 0.8rem;
-    font-weight: ${({ theme }) => theme.font.w_bold};
-  }
-`
-export const IconButton = styled(motion.button)`
-  background: transparent;
-  font-size: 1.3rem;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &:active {
-    transform: scale(0.9);
-  }
-`
-
-export const SingleMessage = styled.li`
   background: ${({ theme }) => theme.background.sent};
   padding: 0.2rem 0.4rem;
+  padding-bottom: 0.1rem;
   font-size: 0.9rem;
   font-weight: ${({ theme }) => theme.font.w_bold};
-  border-radius: 1.2rem 0 1rem 1.2rem;
+  border-radius: 0.2rem;
   color: ${({ theme }) => theme.colors.primary};
-  &:not(:last-child) {
-    margin-bottom: 0.3rem;
-  }
-  word-wrap: break-word;
-  max-width: 17rem;
-  line-height: 1.3;
-`
-export const Messages = styled.ul`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  width: 100%;
-  &.friend {
-    align-items: flex-start;
-    ${SingleMessage} {
-      background: ${({ theme }) => theme.background.received};
-      border-radius: 0 1.2rem 1.2rem 1rem;
+  max-width: 50%;
+  &:last-child {
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 0.15rem;
+      height: 100%;
+      background: #01ad9b;
     }
   }
   &:not(:last-child) {
     margin-bottom: 0.3rem;
   }
+  align-self: flex-end;
+  word-wrap: break-word;
+  line-height: 1.3;
+  &.friend {
+    align-self: flex-start;
+    background: ${({ theme }) => theme.background.received};
+    border-radius: 0 1.2rem 1.2rem 1rem;
+  }
+  div {
+    display: flex;
+    margin-left: auto;
+    gap: 0.1rem;
+    align-items: center;
+  }
+  .text {
+    margin-right: 0.4rem;
+  }
+`
+export const Time = styled.span`
+  font-size: 0.7rem;
+  color: ${({ theme }) => theme.colors.time};
+  font-weight: ${({ theme }) => theme.font.w_light};
+`
+export const Tick = styled.span`
+  color: ${({ theme }) => theme.colors.tick};
+  transform: translate(0.2rem, 0.3rem);
 `

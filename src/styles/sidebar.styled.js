@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 export const Container = styled.div`
-  flex: 0.22;
+  flex: 0.25;
   padding: 0.5rem;
   background: linear-gradient(
     to bottom,
@@ -9,25 +9,12 @@ export const Container = styled.div`
     #181a1b,
     transparent
   );
-  /* background-attachment: fixed; */
   overflow-y: auto;
   overflow-x: hidden;
-  &::-webkit-scrollbar {
-    display: none;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
 `
 export const Search = styled.div`
   position: relative;
-  .search-icon {
-    position: absolute;
-    right: 1.5rem;
-    font-size: 1.1em;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #757575;
-  }
+  width: 100%;
 `
 export const Input = styled.input`
   background: ${({ theme }) => theme.background.secondary};
@@ -39,6 +26,7 @@ export const Input = styled.input`
   font-size: 1rem;
   outline: none;
   border: none;
+  width: 100%;
 
   ::placeholder {
     font-size: 0.8rem;
@@ -128,6 +116,14 @@ export const Channel = styled.div`
   color: ${({ theme }) => theme.colors.secondary};
   display: flex;
   flex-direction: column;
+  & > * {
+    user-select: none;
+  }
+  div {
+    .rotate {
+      transform: rotate(180deg);
+    }
+  }
   .channel-title {
     display: flex;
     align-items: center;
@@ -198,6 +194,25 @@ export const Messages = styled(Channel)`
         border-radius: 0.5rem;
         object-fit: cover;
       }
+    }
+  }
+  .more-friends {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-block: 0.5rem;
+    padding-left: 0.5rem;
+    button {
+      padding: 0.1rem 0.2rem;
+      border-radius: 0.4rem;
+      font-size: 1rem;
+      background: ${({ theme }) => theme.background.active};
+      color: ${({ theme }) => theme.colors.light};
+      cursor: pointer;
+    }
+    span {
+      font-size: 0.9rem;
+      font-weight: ${({ theme }) => theme.font.w_bold};
     }
   }
 `

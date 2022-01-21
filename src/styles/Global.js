@@ -8,6 +8,12 @@ const GlobalStyle = createGlobalStyle`
     outline:none;
     list-style: none;
 }
+*
+::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 body{
 
     font-family: poppins;
@@ -19,5 +25,9 @@ body{
     background-size: 100% 120%;
 
 }
+/* html,body{
+
+    height:100%
+} */
 `
 export default GlobalStyle

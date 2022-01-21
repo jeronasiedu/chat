@@ -4,7 +4,7 @@ const theme = {
     secondary: '#161819',
     active: '#27292e',
     minside: '#1c1e1f',
-    sent: '#387aff',
+    sent: '#2b5278',
     received: '#27292e',
     chatarea: '#161819',
   },
@@ -13,6 +13,8 @@ const theme = {
     gray: '#4F5156',
     secondary: '#bcbcbd',
     notification: '#242424',
+    tick: '#69bcfc',
+    time: '#6abefe',
   },
   font: {
     w_normal: 400,

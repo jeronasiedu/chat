@@ -12,7 +12,6 @@ import {
   Messages,
 } from '../styles/sidebar.styled'
 import {
-  BiSearch,
   CgMoreAlt,
   FiMoreHorizontal,
   BiAlarm,
@@ -20,6 +19,8 @@ import {
   MdSettings,
   BiChevronDown,
 } from 'react-icons/all'
+import { useState } from 'react'
+import { BiPlus } from 'react-icons/all'
 const SideBar = () => {
   const isSingle = (val) => {
     return String(+val).charAt(0) == val
@@ -41,7 +42,6 @@ const SearchComponent = () => {
   return (
     <Search>
       <Input type="text" placeholder="search for anything" />
-      <BiSearch className="search-icon" />
     </Search>
   )
 }
@@ -95,21 +95,26 @@ const ChannelsComponent = () => {
     { name: 'Hangout Lounge', icon: '🍕', total: 6 },
     { name: 'Bots & Games', icon: '🎷', total: '' },
   ]
+  const [openChannels, setOpenChannels] = useState(true)
   return (
     <Channel>
-      <div className="channel-title">
-        <BiChevronDown size={20} />
-        <p>Channel</p>
+      <div
+        className="channel-title"
+        onClick={() => setOpenChannels(!openChannels)}
+      >
+        <BiChevronDown size={20} className={openChannels ? 'rotate' : ''} />
+        <p>Channels</p>
       </div>
-      {channels.map((item, i) => (
-        <div key={i} className="single-channel">
-          <div className="channel-name">
-            <span>{item.icon}</span>
-            <p>{item.name}</p>
+      {openChannels &&
+        channels.map((item, i) => (
+          <div key={i} className="single-channel">
+            <div className="channel-name">
+              <span>{item.icon}</span>
+              <p>{item.name}</p>
+            </div>
+            {item.total && <Total>{item.total}</Total>}
           </div>
-          {item.total && <Total>{item.total}</Total>}
-        </div>
-      ))}
+        ))}
     </Channel>
   )
 }
@@ -117,28 +122,39 @@ const ChannelsComponent = () => {
 const MessagesComponent = ({ isSingle }) => {
   const messages = [
     { name: 'Larry Armstrong', url: '/images/review1.jpg', total: '' },
-    { name: 'Matilda Moss', url: '/images/review2.jpg', total: 1 },
+    { name: 'Matilda Moss', url: '/images/review2.jpg', total: 5 },
     { name: 'Beulah Simon', url: '/images/review6.jpg', total: '' },
-    { name: 'Fred Young', url: '/images/review3.jpg', total: 3 },
-    { name: 'Cole Gordon', url: '/images/review5.jpg', total: 5 },
+    { name: 'Fred Young', url: '/images/review3.jpg', total: '' },
+    { name: 'Cole Gordon', url: '/images/review5.jpg', total: '' },
   ]
+  const [openMessages, setOpenMessages] = useState(true)
   return (
     <Messages>
-      <div className="message-title">
-        <BiChevronDown size={20} />
+      <div
+        className="message-title"
+        onClick={() => setOpenMessages(!openMessages)}
+      >
+        <BiChevronDown size={20} className={openMessages ? 'rotate' : ''} />
         <p>Messages</p>
       </div>
-      {messages.map((item, i) => (
-        <div key={i} className="single-message">
-          <div className="message-name">
-            <img src={item.url} alt={item.name} />
-            <p>{item.name}</p>
+      {openMessages &&
+        messages.map((item, i) => (
+          <div key={i} className="single-message">
+            <div className="message-name">
+              <img src={item.url} alt={item.name} />
+              <p>{item.name}</p>
+            </div>
+            {item.total && (
+              <Total single={() => isSingle(item.total)}>{item.total}</Total>
+            )}
           </div>
-          {item.total && (
-            <Total single={() => isSingle(item.total)}>{item.total}</Total>
-          )}
-        </div>
-      ))}
+        ))}
+      <div className="more-friends">
+        <button aria-label="add friends" size="small">
+          <BiPlus />
+        </button>
+        <span>Add Friends</span>
+      </div>
     </Messages>
   )
 }

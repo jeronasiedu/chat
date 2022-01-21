@@ -5,16 +5,38 @@ import {
   Icon,
   Name,
   Desc,
-  Contacts,
-  Profile,
-  TotalContacts,
+  SendContainer,
+  Input,
+  CustomButton,
 } from '../../styles/chat.styled.js'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
+import {
+  BiLayerPlus,
+  AiFillAudio,
+  FiSend,
+  BsLayoutSplit,
+} from 'react-icons/all'
 import ChatBox from './ChatBox.jsx'
-const Chat = () => {
+import { IconButton } from '@mui/material'
+const Chat = ({ setToggle, toggle }) => {
+  const [text, setText] = useState('')
+  const [messages, setMessages] = useState([])
+  const handleText = (e) => {
+    e.preventDefault()
+    if (!text || text.trim().length === 0) {
+      setText('')
+      return
+    }
+
+    setText('')
+    setMessages([...messages, { text, date: new Date() }])
+  }
   return (
     <Container>
-      <NavBar />
-      <ChatBox />
+      <NavBar setToggle={setToggle} toggle={toggle} />
+      <ChatBox messages={messages} />
+      <SendMessage text={text} handleText={handleText} setText={setText} />
     </Container>
   )
 }
@@ -22,36 +44,87 @@ const Chat = () => {
 export default Chat
 
 // NAVBAR
-const NavBar = () => {
-  const contacts = [
-    {
-      url: '/images/review8.jpg',
-      name: 'Michael Lowe',
-    },
-    {
-      url: '/images/review9.jpg',
-      name: 'Raymond Collier',
-    },
-    {
-      url: '/images/review10.jpg',
-      name: 'Cynthia Powers',
-    },
-  ]
+const NavBar = ({ setToggle, toggle }) => {
   return (
     <Navbar>
-      <Channel>
+      <Channel onClick={() => setToggle(!toggle)}>
         <Icon>😎</Icon>
         <Name>Design Support</Name>
         <Desc>Where we share our works and get feedbacks</Desc>
       </Channel>
-      <Contacts>
-        {contacts.slice(0, 3).map((item, i) => (
-          <Profile key={i} src={item.url} alt={item.name} />
-        ))}
-        {contacts.length > 3 && (
-          <TotalContacts>{contacts.length - 3}</TotalContacts>
-        )}
-      </Contacts>
+      <IconButton
+        aria-label="open"
+        onClick={() => setToggle(!toggle)}
+        size="small"
+        color="info"
+        sx={{
+          mr: 3,
+        }}
+      >
+        <BsLayoutSplit color="#fff" />
+      </IconButton>
     </Navbar>
+  )
+}
+// SEND MESSAGE
+const SendMessage = ({ text, setText, handleText }) => {
+  return (
+    <SendContainer onSubmit={handleText} layout>
+      <AnimatePresence>
+        {text.length < 1 && (
+          <CustomButton
+            className="audio"
+            initial={{
+              opacity: 0,
+              x: 3,
+            }}
+            animate={{
+              opacity: 1,
+              x: 0,
+            }}
+            exit={{
+              opacity: 0,
+              x: 3,
+            }}
+            type="submit"
+          >
+            <AiFillAudio />
+          </CustomButton>
+        )}
+      </AnimatePresence>
+      <Input
+        type="text"
+        spellcheck={false}
+        placeholder="Message in Design Support"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <motion.div layout>
+        <CustomButton>
+          <BiLayerPlus />
+        </CustomButton>
+        <AnimatePresence>
+          {text.length > 0 && (
+            <CustomButton
+              initial={{
+                opacity: 0,
+                x: 3,
+              }}
+              animate={{
+                opacity: 1,
+                x: 0,
+              }}
+              exit={{
+                opacity: 0,
+                x: 3,
+              }}
+              type="submit"
+            >
+              <FiSend color="#fff" />
+            </CustomButton>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </SendContainer>
   )
 }
