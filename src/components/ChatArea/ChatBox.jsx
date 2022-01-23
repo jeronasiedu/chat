@@ -15,13 +15,8 @@ const ChatBox = ({ messages }) => {
 
   return (
     <Container ref={containerRef}>
-      {/* {messages.map((item, i) => (
-        <SingleMessage className="friend" key={i}>
-          {item}
-        </SingleMessage>
-      ))} */}
       {messages.map((item, i) => (
-        <SingleMessage key={i}>
+        <SingleMessage key={i} className="friend">
           <p className="text">{item.text}</p>
           <div>
             <Time>{format(item.date, 'p')}</Time>
@@ -31,6 +26,17 @@ const ChatBox = ({ messages }) => {
           </div>
         </SingleMessage>
       ))}
+      {/* {messages.map((item, i) => (
+        <SingleMessage key={i}>
+          <p className="text">{item.text}</p>
+          <div>
+            <Time>{format(item.date, 'p')}</Time>
+            <Tick>
+              <IoCheckmarkOutline />
+            </Tick>
+          </div>
+        </SingleMessage>
+      ))} */}
     </Container>
   )
 }

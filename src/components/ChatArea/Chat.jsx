@@ -8,9 +8,12 @@ import {
   SendContainer,
   Input,
   CustomButton,
+  Subs,
 } from '../../styles/chat.styled.js'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { channels, contacts } from '../../data'
 import {
   BiLayerPlus,
   AiFillAudio,
@@ -18,7 +21,9 @@ import {
   BsLayoutSplit,
 } from 'react-icons/all'
 import ChatBox from './ChatBox.jsx'
+import millify from 'millify'
 import { IconButton } from '@mui/material'
+import { Routes, Route } from 'react-router-dom'
 const Chat = ({ setToggle, toggle }) => {
   const [text, setText] = useState('')
   const [messages, setMessages] = useState([])
@@ -34,9 +39,23 @@ const Chat = ({ setToggle, toggle }) => {
   }
   return (
     <Container>
-      <NavBar setToggle={setToggle} toggle={toggle} />
-      <ChatBox messages={messages} />
-      <SendMessage text={text} handleText={handleText} setText={setText} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/chat/:type/:id"
+          element={
+            <>
+              <NavBar setToggle={setToggle} toggle={toggle} />
+              <ChatBox messages={messages} />
+              <SendMessage
+                text={text}
+                handleText={handleText}
+                setText={setText}
+              />
+            </>
+          }
+        />
+      </Routes>
     </Container>
   )
 }
@@ -45,12 +64,49 @@ export default Chat
 
 // NAVBAR
 const NavBar = ({ setToggle, toggle }) => {
+  const { id, type } = useParams()
+  let data
+  if (type === 'channel') {
+    let channel = channels.filter((item) => item.id === Number(id))
+    channel = channel[0]
+    data = channel
+  } else {
+    let contact = contacts.filter((item) => item.id === Number(id))
+    contact = contact[0]
+    data = contact
+  }
   return (
     <Navbar>
       <Channel onClick={() => setToggle(!toggle)}>
-        <Icon>😎</Icon>
-        <Name>Design Support</Name>
-        <Desc>Where we share our works and get feedbacks</Desc>
+        <Icon>{data?.ic}</Icon>
+        <Name>{data?.name}</Name>
+        <Desc>{data?.desc}</Desc>
+        {type === 'channel' ? (
+          <Subs>
+            <span
+              style={{
+                marginRight: '0.3rem',
+              }}
+            >
+              {millify(data?.totalSubscribers, {
+                precision: 3,
+                lowercase: true,
+              })}
+            </span>
+            Subscribers
+          </Subs>
+        ) : (
+          <Subs>
+            {data?.lastSeen !== 'online' && 'last seen @'}
+            <span
+              style={{
+                marginLeft: '0.5rem',
+              }}
+            >
+              {data?.lastSeen}
+            </span>
+          </Subs>
+        )}
       </Channel>
       <IconButton
         aria-label="open"
@@ -68,6 +124,17 @@ const NavBar = ({ setToggle, toggle }) => {
 }
 // SEND MESSAGE
 const SendMessage = ({ text, setText, handleText }) => {
+  const { id, type } = useParams()
+  let data
+  if (type === 'channel') {
+    let channel = channels.filter((item) => item.id === Number(id))
+    channel = channel[0]
+    data = channel
+  } else {
+    let contact = contacts.filter((item) => item.id === Number(id))
+    contact = contact[0]
+    data = contact
+  }
   return (
     <SendContainer onSubmit={handleText} layout>
       <AnimatePresence>
@@ -95,7 +162,9 @@ const SendMessage = ({ text, setText, handleText }) => {
       <Input
         type="text"
         spellcheck={false}
-        placeholder="Message in Design Support"
+        placeholder={`Message ${type === 'channel' ? 'in' : 'with'} ${
+          data?.name
+        }`}
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
@@ -126,5 +195,28 @@ const SendMessage = ({ text, setText, handleText }) => {
         </AnimatePresence>
       </motion.div>
     </SendContainer>
+  )
+}
+const Home = () => {
+  return (
+    <div
+      style={{
+        width: '100%',
+        aspectRatio: '1',
+        display: 'grid',
+        placeItems: 'center',
+      }}
+    >
+      <p
+        style={{
+          fontSize: '0.8rem',
+          background: '#1E2C3A',
+          padding: '0.1rem 0.4rem',
+          borderRadius: '0.5rem',
+        }}
+      >
+        Select a chat to start messaging
+      </p>
+    </div>
   )
 }

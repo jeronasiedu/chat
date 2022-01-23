@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 export const Container = styled.div`
   flex: 0.25;
-  padding: 0.5rem;
+  padding-bottom: 0.5rem;
   background: linear-gradient(
     to bottom,
     #181b1f,
@@ -13,13 +13,13 @@ export const Container = styled.div`
   overflow-x: hidden;
 `
 export const Search = styled.div`
-  position: relative;
-  width: 100%;
+  position: sticky;
+  z-index: 10;
+  inset: 0;
 `
 export const Input = styled.input`
-  background: ${({ theme }) => theme.background.secondary};
+  background: ${({ theme }) => theme.background.chatarea};
   color: ${({ theme }) => theme.colors.secondary};
-  border-radius: 0.4rem;
   padding: 0.3rem;
   font-family: inherit;
   padding-right: 1.5rem;
@@ -48,7 +48,7 @@ export const Content = styled.div`
   gap: 0.5rem;
   align-items: center;
 `
-export const Avatar = styled.div`
+export const CustomAvatar = styled.div`
   width: 2.8rem;
   aspect-ratio: 1;
   border-radius: 0.7rem;
@@ -90,6 +90,12 @@ export const Notifications = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0.2rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    :hover {
+      background: ${({ theme }) => theme.background.hover};
+    }
   }
   .notification-name {
     display: flex;
@@ -104,8 +110,8 @@ export const Notifications = styled.div`
 export const Total = styled.p`
   background: ${({ theme }) => theme.colors.notification};
   font-size: 0.6rem;
-  padding: 0.2rem 0.4rem;
-  border-radius: ${({ single }) => (single ? '50%' : '3rem')};
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -116,8 +122,32 @@ export const Channel = styled.div`
   color: ${({ theme }) => theme.colors.secondary};
   display: flex;
   flex-direction: column;
+  gap: 0.3rem;
   & > * {
     user-select: none;
+  }
+  .right-side-message {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .last-message-date {
+      font-weight: ${({ theme }) => theme.font.w_bold};
+    }
+  }
+  .last-message {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 10rem;
+    color: ${({ theme }) => theme.colors.gray};
+    font-size: 0.8rem;
+  }
+  .active {
+    background: ${({ theme }) => theme.background.active};
+    color: inherit;
+    border-radius: 0.4rem;
   }
   div {
     .rotate {
@@ -144,15 +174,16 @@ export const Channel = styled.div`
     padding: 0.5rem;
     border-radius: 0.4rem;
     transition: 0.5s ease;
-
     cursor: pointer;
-    &:hover {
-      background: ${({ theme }) => theme.background.active};
+    :hover {
+      background: ${({ theme }) => theme.background.hover};
     }
+
     .channel-name {
       display: flex;
       font-size: 0.9rem;
-      gap: 0.4rem;
+      gap: 0.5rem;
+      align-items: center;
     }
   }
 `
@@ -171,6 +202,7 @@ export const Messages = styled(Channel)`
       font-weight: ${({ theme }) => theme.font.w_bold};
     }
   }
+
   .single-message {
     display: flex;
     justify-content: space-between;
@@ -178,15 +210,14 @@ export const Messages = styled(Channel)`
     padding: 0.5rem;
     border-radius: 0.4rem;
     transition: 0.5s ease;
-    margin-bottom: 0.5rem;
     cursor: pointer;
-    &:hover {
-      background: ${({ theme }) => theme.background.active};
+    :hover {
+      background: ${({ theme }) => theme.background.hover};
     }
     .message-name {
       display: flex;
       font-size: 0.9rem;
-      gap: 0.4rem;
+      gap: 0.5rem;
       align-items: center;
       img {
         width: 2rem;

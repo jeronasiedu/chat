@@ -11,6 +11,10 @@ export const Container = styled.div`
     margin-top: auto !important;
   }
 `
+export const Tick = styled.span`
+  color: ${({ theme }) => theme.colors.tick};
+  transform: translate(0.2rem, 0.3rem);
+`
 export const SingleMessage = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -25,9 +29,9 @@ export const SingleMessage = styled.div`
   border-radius: 0.2rem;
   color: ${({ theme }) => theme.colors.primary};
   max-width: 50%;
-  &:last-child {
+  :last-child {
     position: relative;
-    &::before {
+    ::before {
       content: '';
       position: absolute;
       right: 0;
@@ -46,7 +50,12 @@ export const SingleMessage = styled.div`
   &.friend {
     align-self: flex-start;
     background: ${({ theme }) => theme.background.received};
-    border-radius: 0 1.2rem 1.2rem 1rem;
+    ${Tick} {
+      display: none;
+    }
+    ::before {
+      right: 100%;
+    }
   }
   div {
     display: flex;
@@ -62,8 +71,4 @@ export const Time = styled.span`
   font-size: 0.7rem;
   color: ${({ theme }) => theme.colors.time};
   font-weight: ${({ theme }) => theme.font.w_light};
-`
-export const Tick = styled.span`
-  color: ${({ theme }) => theme.colors.tick};
-  transform: translate(0.2rem, 0.3rem);
 `

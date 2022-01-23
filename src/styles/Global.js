@@ -7,6 +7,11 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     outline:none;
     list-style: none;
+    text-decoration: none;
+    scrollbar-width: none
+}
+a{
+    color:#bcbcbd;
 }
 *
 ::-webkit-scrollbar {
@@ -25,9 +30,6 @@ body{
     background-size: 100% 120%;
 
 }
-/* html,body{
 
-    height:100%
-} */
 `
 export default GlobalStyle

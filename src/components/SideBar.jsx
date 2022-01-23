@@ -3,13 +3,13 @@ import {
   Input,
   Search,
   ActiveUser,
-  Avatar,
   Content,
   Active,
   Notifications,
   Total,
   Channel,
   Messages,
+  CustomAvatar,
 } from '../styles/sidebar.styled'
 import {
   CgMoreAlt,
@@ -21,6 +21,10 @@ import {
 } from 'react-icons/all'
 import { useState } from 'react'
 import { BiPlus } from 'react-icons/all'
+import { NavLink } from 'react-router-dom'
+import { channels, contacts } from '../data'
+import { Avatar, IconButton } from '@mui/material'
+import randomColor from 'randomcolor'
 const SideBar = () => {
   const isSingle = (val) => {
     return String(+val).charAt(0) == val
@@ -50,9 +54,9 @@ const ActiveUserComponent = () => {
   return (
     <ActiveUser>
       <Content>
-        <Avatar>
+        <CustomAvatar>
           <img src="/images/review1.jpg" alt="John Doe" />
-        </Avatar>
+        </CustomAvatar>
         <Active>
           <h4 className="username">John Doe</h4>
           <div>
@@ -61,7 +65,15 @@ const ActiveUserComponent = () => {
           </div>
         </Active>
       </Content>
-      <CgMoreAlt />
+      <IconButton
+        aria-label="more"
+        size="small"
+        style={{
+          color: '#fff',
+        }}
+      >
+        <CgMoreAlt />
+      </IconButton>
     </ActiveUser>
   )
 }
@@ -88,13 +100,6 @@ const NotificationsComponent = () => {
 }
 // Channels Component
 const ChannelsComponent = () => {
-  const channels = [
-    { name: 'General Chat', icon: '🥱', total: '' },
-    { name: 'Design Supports', icon: '😎', total: 5 },
-    { name: 'Product Showcases', icon: '💪🏼', total: 18 },
-    { name: 'Hangout Lounge', icon: '🍕', total: 6 },
-    { name: 'Bots & Games', icon: '🎷', total: '' },
-  ]
   const [openChannels, setOpenChannels] = useState(true)
   return (
     <Channel>
@@ -107,26 +112,58 @@ const ChannelsComponent = () => {
       </div>
       {openChannels &&
         channels.map((item, i) => (
-          <div key={i} className="single-channel">
-            <div className="channel-name">
-              <span>{item.icon}</span>
-              <p>{item.name}</p>
+          <NavLink
+            key={i}
+            to={`chat/channel/${item.id}`}
+            className={({ isActive }) => (isActive ? 'active' : '')}
+          >
+            <div className="single-channel">
+              <div className="channel-name">
+                {item.url ? (
+                  <Avatar
+                    src={item.url}
+                    sx={{
+                      width: 30,
+                      height: 30,
+                    }}
+                    variant="rounded"
+                  />
+                ) : (
+                  <Avatar
+                    size="small"
+                    sx={{
+                      width: 30,
+                      height: 30,
+                      bgcolor: randomColor(),
+                    }}
+                    variant="rounded"
+                  >
+                    {item.name.slice(0, 1)}
+                  </Avatar>
+                )}
+                <div>
+                  <p>{item.name}</p>
+                  <p className="last-message">{item.lastMsg.text}</p>
+                </div>
+              </div>
+              <div className="right-side-message">
+                <p className="last-message-date last-message">
+                  {item.lastMsg.date}
+                </p>
+                {item.total && (
+                  <Total single={() => isSingle(item.total)}>
+                    {item.total}
+                  </Total>
+                )}
+              </div>
             </div>
-            {item.total && <Total>{item.total}</Total>}
-          </div>
+          </NavLink>
         ))}
     </Channel>
   )
 }
 // Messages Components
 const MessagesComponent = ({ isSingle }) => {
-  const messages = [
-    { name: 'Larry Armstrong', url: '/images/review1.jpg', total: '' },
-    { name: 'Matilda Moss', url: '/images/review2.jpg', total: 5 },
-    { name: 'Beulah Simon', url: '/images/review6.jpg', total: '' },
-    { name: 'Fred Young', url: '/images/review3.jpg', total: '' },
-    { name: 'Cole Gordon', url: '/images/review5.jpg', total: '' },
-  ]
   const [openMessages, setOpenMessages] = useState(true)
   return (
     <Messages>
@@ -138,16 +175,33 @@ const MessagesComponent = ({ isSingle }) => {
         <p>Messages</p>
       </div>
       {openMessages &&
-        messages.map((item, i) => (
-          <div key={i} className="single-message">
-            <div className="message-name">
-              <img src={item.url} alt={item.name} />
-              <p>{item.name}</p>
+        contacts.map((item, i) => (
+          <NavLink
+            to={`chat/person/${item.id}`}
+            key={i}
+            className={({ isActive }) => (isActive ? 'active' : '')}
+          >
+            <div className="single-message">
+              <div className="message-name">
+                <img src={item.url} alt={item.name} />
+                <div>
+                  <p>{item.name}</p>
+                  <p className="last-message">{item.lastMsg.text}</p>
+                </div>
+              </div>
+
+              <div className="right-side-message">
+                <p className="last-message-date last-message">
+                  {item.lastMsg.date}
+                </p>
+                {item.total && (
+                  <Total single={() => isSingle(item.total)}>
+                    {item.total}
+                  </Total>
+                )}
+              </div>
             </div>
-            {item.total && (
-              <Total single={() => isSingle(item.total)}>{item.total}</Total>
-            )}
-          </div>
+          </NavLink>
         ))}
       <div className="more-friends">
         <button aria-label="add friends" size="small">

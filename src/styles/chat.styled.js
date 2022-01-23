@@ -48,11 +48,9 @@ export const SendContainer = styled(motion.form)`
   background: ${({ theme }) => theme.background.active};
   width: 100%;
   margin-inline: auto;
-  /* border-radius: 0.5rem; */
   display: flex;
   align-items: center;
   padding: 0.4rem 0.5rem;
-
   div {
     display: flex;
     align-items: center;
@@ -83,5 +81,15 @@ export const CustomButton = styled(motion.button)`
   justify-content: center;
   &:active {
     transform: scale(0.9);
+  }
+`
+export const Subs = styled.p`
+  color: ${({ theme }) => theme.colors.gray};
+  font-size: 0.75rem;
+  span {
+    background: ${({ theme }) => theme.background.active};
+    padding: 0.1rem 0.2rem;
+    border-radius: 0.1rem;
+    color: ${({ theme }) => theme.colors.secondary};
   }
 `

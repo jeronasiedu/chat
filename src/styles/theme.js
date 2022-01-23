@@ -3,10 +3,10 @@ const theme = {
     primary: '#181a1b',
     secondary: '#161819',
     active: '#27292e',
-    minside: '#1c1e1f',
     sent: '#2b5278',
     received: '#27292e',
     chatarea: '#161819',
+    hover: '#1f2229',
   },
   colors: {
     light: '#fff',
