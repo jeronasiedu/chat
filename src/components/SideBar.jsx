@@ -5,7 +5,6 @@ import {
   ActiveUser,
   Content,
   Active,
-  Notifications,
   Total,
   Channel,
   Messages,
@@ -33,7 +32,6 @@ const SideBar = () => {
     <Container>
       <SearchComponent />
       <ActiveUserComponent />
-      <NotificationsComponent />
       <ChannelsComponent />
       <MessagesComponent isSingle={isSingle} />
     </Container>
@@ -75,27 +73,6 @@ const ActiveUserComponent = () => {
         <CgMoreAlt />
       </IconButton>
     </ActiveUser>
-  )
-}
-// Notification Component
-const NotificationsComponent = () => {
-  const notifs = [
-    { name: 'All Updates', icon: <BiAlarm size={20} />, total: 4 },
-    { name: 'Members', icon: <FaRegUser size={20} />, total: 12 },
-    { name: 'Settings', icon: <MdSettings size={20} />, total: 5 },
-  ]
-  return (
-    <Notifications>
-      {notifs.map((item, i) => (
-        <div key={i} className="single-notification">
-          <div className="notification-name">
-            {item.icon}
-            <p>{item.name}</p>
-          </div>
-          <Total>{item.total}</Total>
-        </div>
-      ))}
-    </Notifications>
   )
 }
 // Channels Component

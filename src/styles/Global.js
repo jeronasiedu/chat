@@ -28,6 +28,7 @@ body{
     background: -moz-linear-gradient(top right, #268FE1, #AA5CC9);
     background: linear-gradient(to bottom left, #268FE1, #AA5CC9);
     background-size: 100% 120%;
+    background-repeat: no-repeat;
 
 }
 

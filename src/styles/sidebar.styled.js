@@ -80,35 +80,9 @@ export const Active = styled.div`
     }
   }
 `
-export const Notifications = styled.div`
-  margin-top: 1.5rem;
-  color: ${({ theme }) => theme.colors.secondary};
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  .single-notification {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.2rem;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    :hover {
-      background: ${({ theme }) => theme.background.hover};
-    }
-  }
-  .notification-name {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    p {
-      font-size: 0.9rem;
-    }
-  }
-`
 
 export const Total = styled.p`
-  background: ${({ theme }) => theme.colors.notification};
+  background: ${({ theme }) => theme.background.active};
   font-size: 0.6rem;
   padding: 0.2rem 0.5rem;
   border-radius: 0.2rem;

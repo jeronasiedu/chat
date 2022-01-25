@@ -203,8 +203,9 @@ const Home = () => {
       style={{
         width: '100%',
         aspectRatio: '1',
-        display: 'grid',
-        placeItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
       <p
