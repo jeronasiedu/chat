@@ -11,23 +11,77 @@ import {
   Glass,
 } from '../../styles/auth.styled.js'
 import { Link } from 'react-router-dom'
-import {
-  AiOutlineGoogle,
-  BiFingerprint,
-  MdAlternateEmail,
-} from 'react-icons/all'
+import { BiFingerprint, MdAlternateEmail, FaRegUser } from 'react-icons/all'
+import { useDispatch } from 'react-redux'
+import { useState } from 'react'
+import { updateUser } from '../../redux/slice.js'
+import { useNavigate } from 'react-router-dom'
+import { auth } from '../../firebase'
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth'
+import { useEffect } from 'react'
 const Register = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [userDetails, setUserDetails] = useState({
+    username: '',
+    email: '',
+    password: '',
+  })
+  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(userDetails)
+    dispatch(updateUser(userDetails))
+    navigate('/', { replace: true })
+    setUserDetails({
+      username: '',
+      email: '',
+      password: '',
+    })
+  }
   return (
     <Wrapper>
       <Container>
         <Left>
           <Content>
-            <h2>Welcome back</h2>
-            <p>Welcome back! Please enter your details</p>
-            <Form>
+            <h2>Join Us</h2>
+            <p>Join us! Your friends are waiting</p>
+            <Form onSubmit={handleSubmit}>
+              <div className="">
+                <label htmlFor="username">Username</label>
+                <input
+                  type="text"
+                  placeholder="Anything goes"
+                  name="username"
+                  required
+                  id="username"
+                  value={userDetails.username}
+                  onChange={(e) => {
+                    setUserDetails({ ...userDetails, username: e.target.value })
+                  }}
+                  autoCorrect="false"
+                  autoComplete="off"
+                  autoFocus
+                />
+                <span>
+                  <FaRegUser />
+                </span>
+              </div>
               <div className="">
                 <label htmlFor="email">Email</label>
-                <input type="email" placeholder="Enter your email" required />
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  required
+                  id="email"
+                  value={userDetails.email}
+                  onChange={(e) => {
+                    setUserDetails({ ...userDetails, email: e.target.value })
+                  }}
+                  autoCorrect="false"
+                  autoComplete="off"
+                  name="email"
+                />
                 <span>
                   <MdAlternateEmail />
                 </span>
@@ -38,25 +92,32 @@ const Register = () => {
                   type="password"
                   placeholder="Enter your password"
                   required
+                  id="password"
+                  value={userDetails.password}
+                  onChange={(e) => {
+                    setUserDetails({ ...userDetails, password: e.target.value })
+                  }}
+                  name="password"
                 />
                 <span>
                   <BiFingerprint />
                 </span>
               </div>
-              <Link to="forgotpassword" className="link">
-                forgotpassword
-              </Link>
-              <Button type="submit" className="primary">
-                Sign in
-              </Button>
-              <Button type="submit" className="light">
-                <AiOutlineGoogle /> Sign in google
-              </Button>
+              <div className="bottom">
+                <Link to="forgotpassword" className="link">
+                  Forgot Password
+                </Link>
+                <Button type="submit">Join Now</Button>
+                <Button onClick={() => signInWithGoogle()}>
+                  <img src="/images/google.svg" alt="google logo" />
+                  Sign up with google
+                </Button>
+              </div>
             </Form>
-            <p>
-              Don't have an account?
-              <Link to="register" className="link">
-                sign up for free
+            <p className="sign-up">
+              <span>Already have an account?</span>
+              <Link to="/login" className="link ">
+                Log in
               </Link>
             </p>
           </Content>

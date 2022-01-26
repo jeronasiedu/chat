@@ -13,27 +13,32 @@ import {
 import {
   CgMoreAlt,
   FiMoreHorizontal,
-  BiAlarm,
-  FaRegUser,
-  MdSettings,
   BiChevronDown,
+  BiPlus,
+  CgLogOut,
+  AiOutlineSetting,
+  TiGroupOutline,
 } from 'react-icons/all'
 import { useState } from 'react'
-import { BiPlus } from 'react-icons/all'
 import { NavLink } from 'react-router-dom'
 import { channels, contacts } from '../data'
-import { Avatar, IconButton } from '@mui/material'
+import { Avatar, IconButton, MenuItem, Menu } from '@mui/material'
 import randomColor from 'randomcolor'
+import { logout } from '../firebase'
+import { useSelector } from 'react-redux'
 const SideBar = () => {
-  const isSingle = (val) => {
-    return String(+val).charAt(0) == val
-  }
   return (
     <Container>
       <SearchComponent />
-      <ActiveUserComponent />
-      <ChannelsComponent />
-      <MessagesComponent isSingle={isSingle} />
+      <div
+        style={{
+          paddingInline: '0.3rem',
+        }}
+      >
+        <ActiveUserComponent />
+        <ChannelsComponent />
+        <MessagesComponent />
+      </div>
     </Container>
   )
 }
@@ -49,14 +54,27 @@ const SearchComponent = () => {
 }
 // Active User Component
 const ActiveUserComponent = () => {
+  const { user } = useSelector((state) => state.chatReducer)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+  const handleLogout = () => {
+    handleClose()
+    logout()
+  }
   return (
     <ActiveUser>
       <Content>
         <CustomAvatar>
-          <img src="/images/review1.jpg" alt="John Doe" />
+          <img src={user?.url} alt={user?.username} />
         </CustomAvatar>
         <Active>
-          <h4 className="username">John Doe</h4>
+          <h4 className="username">{user?.username} </h4>
           <div>
             <FiMoreHorizontal size={10} className="more" />
             <p>Active for chat</p>
@@ -69,9 +87,87 @@ const ActiveUserComponent = () => {
         style={{
           color: '#fff',
         }}
+        id="basic-button"
+        aria-controls="basic-menu"
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
       >
         <CgMoreAlt />
       </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            background: '#181a1b',
+            color: '#fff',
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              left: 14,
+              width: 10,
+              height: 10,
+              bgcolor: '#181a1b',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+      >
+        <MenuItem onClick={handleClose}>
+          <TiGroupOutline
+            size={20}
+            style={{
+              marginRight: '0.2rem',
+            }}
+          />
+          New Channel
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <AiOutlineSetting
+            size={20}
+            style={{
+              marginRight: '0.2rem',
+            }}
+          />
+          Settings
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <CgLogOut
+            size={20}
+            style={{
+              marginRight: '0.2rem',
+            }}
+          />
+          Log Out
+        </MenuItem>
+      </Menu>
     </ActiveUser>
   )
 }
@@ -127,11 +223,7 @@ const ChannelsComponent = () => {
                 <p className="last-message-date last-message">
                   {item.lastMsg.date}
                 </p>
-                {item.total && (
-                  <Total single={() => isSingle(item.total)}>
-                    {item.total}
-                  </Total>
-                )}
+                {item.total && <Total>{item.total}</Total>}
               </div>
             </div>
           </NavLink>
@@ -140,7 +232,7 @@ const ChannelsComponent = () => {
   )
 }
 // Messages Components
-const MessagesComponent = ({ isSingle }) => {
+const MessagesComponent = () => {
   const [openMessages, setOpenMessages] = useState(true)
   return (
     <Messages>
@@ -171,11 +263,7 @@ const MessagesComponent = ({ isSingle }) => {
                 <p className="last-message-date last-message">
                   {item.lastMsg.date}
                 </p>
-                {item.total && (
-                  <Total single={() => isSingle(item.total)}>
-                    {item.total}
-                  </Total>
-                )}
+                {item.total && <Total>{item.total}</Total>}
               </div>
             </div>
           </NavLink>

@@ -41,7 +41,7 @@ export const ActiveUser = styled.div`
   width: 100%;
   background: ${({ theme }) => theme.background.active};
   padding: 0.5rem;
-  border-radius: 0.8rem;
+  border-radius: 0.3rem;
 `
 export const Content = styled.div`
   display: flex;

@@ -58,7 +58,7 @@ export const Content = styled.div`
     padding: 0.1rem 0.5rem;
     padding-right: 1.5rem;
     font-family: inherit;
-    font-weight: ${({ theme }) => theme.font.w_light};
+    font-weight: ${({ theme }) => theme.font.w_normal};
     box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
       rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px,
       rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
@@ -68,6 +68,12 @@ export const Content = styled.div`
     ::placeholder {
       font-size: 0.9rem;
     }
+    /* :invalid {
+      outline: 1px solid red;
+    }
+    :valid {
+      outline: 1px solid green;
+    } */
   }
   div {
     position: relative;
@@ -85,31 +91,54 @@ export const Content = styled.div`
     font-size: 0.8rem;
     color: ${({ theme }) => theme.colors.gray};
   }
+
   .link {
     color: #000;
     font-size: 0.85rem;
+    :nth-of-type(1) {
+      margin-left: auto;
+    }
+    font-weight: ${({ theme }) => theme.font.w_bold};
+  }
+  .sign-up {
+    span {
+      margin-right: 0.3rem;
+    }
   }
 `
 
 export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
 `
 
 export const Button = styled.button`
-  padding: 0.5rem;
-  border-radius: 0.35rem;
-  margin: 0.2rem;
-  background: #000;
-  color: #fff;
+  padding: 0.4rem 0.2rem;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  font-weight: ${({ theme }) => theme.font.w_bold};
+  transition: 0.5s ease;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &.light {
-    background: #fff;
-    color: #000;
-    border: 1px solid gray;
+  :first-of-type {
+    background: #101727;
+    margin-bottom: 0.3rem;
+    :hover {
+      background: #303645;
+    }
+    color: ${({ theme }) => theme.colors.light};
+  }
+  :nth-of-type(2) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
+    img {
+      width: 1.5rem;
+    }
   }
 `
 export const ImageContainer = styled.div`
@@ -132,7 +161,7 @@ export const Glass = styled.div`
   bottom: 1.5rem;
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(6.5px);
+  backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6.5px);
   border-radius: 0.3rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
@@ -143,11 +172,8 @@ export const Glass = styled.div`
   }
   p {
     line-height: 1.2;
-    .pink {
-      padding: 0.01rem 0.1rem;
-      background: #ee257d;
-      border-radius: 0.2rem;
-      color: ${({ theme }) => theme.colors.light};
-    }
+    background: -webkit-linear-gradient(90deg, #000, #2c3e50);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 `

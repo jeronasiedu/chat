@@ -31,6 +31,9 @@ body{
     background-repeat: no-repeat;
 
 }
+input,button{
+    font-family: inherit;
+}
 
 `
 export default GlobalStyle
