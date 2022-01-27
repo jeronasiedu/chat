@@ -14,7 +14,6 @@ import {
   CgMoreAlt,
   FiMoreHorizontal,
   BiChevronDown,
-  BiPlus,
   CgLogOut,
   AiOutlineSetting,
   TiGroupOutline,
@@ -71,10 +70,10 @@ const ActiveUserComponent = () => {
     <ActiveUser>
       <Content>
         <CustomAvatar>
-          <img src={user?.url} alt={user?.username} />
+          <img src="/images/review8.jpg" alt="jeron" />
         </CustomAvatar>
         <Active>
-          <h4 className="username">{user?.username} </h4>
+          <h4 className="username">Jeron</h4>
           <div>
             <FiMoreHorizontal size={10} className="more" />
             <p>Active for chat</p>
@@ -147,7 +146,7 @@ const ActiveUserComponent = () => {
               marginRight: '0.2rem',
             }}
           />
-          New Channel
+          New Friend
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <AiOutlineSetting
@@ -241,7 +240,7 @@ const MessagesComponent = () => {
         onClick={() => setOpenMessages(!openMessages)}
       >
         <BiChevronDown size={20} className={openMessages ? 'rotate' : ''} />
-        <p>Messages</p>
+        <p>Chats</p>
       </div>
       {openMessages &&
         contacts.map((item, i) => (
@@ -268,12 +267,6 @@ const MessagesComponent = () => {
             </div>
           </NavLink>
         ))}
-      <div className="more-friends">
-        <button aria-label="add friends" size="small">
-          <BiPlus />
-        </button>
-        <span>Add Friends</span>
-      </div>
     </Messages>
   )
 }

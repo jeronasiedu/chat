@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
-import { getAuth, signOut } from 'firebase/auth'
+import { getAuth, signOut, GoogleAuthProvider } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 const firebaseConfig = {
   apiKey: 'AIzaSyAV9SjXAd7lB-kTNjD3TZoirJ1MRO7UzY8',
@@ -23,4 +23,6 @@ export const logout = () => {
 export const login = (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
 }
+export const provider = new GoogleAuthProvider()
+
 export default db

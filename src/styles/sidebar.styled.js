@@ -201,23 +201,4 @@ export const Messages = styled(Channel)`
       }
     }
   }
-  .more-friends {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-block: 0.5rem;
-    padding-left: 0.5rem;
-    button {
-      padding: 0.1rem 0.2rem;
-      border-radius: 0.4rem;
-      font-size: 1rem;
-      background: ${({ theme }) => theme.background.active};
-      color: ${({ theme }) => theme.colors.light};
-      cursor: pointer;
-    }
-    span {
-      font-size: 0.9rem;
-      font-weight: ${({ theme }) => theme.font.w_bold};
-    }
-  }
 `
