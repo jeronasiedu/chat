@@ -70,10 +70,10 @@ const ActiveUserComponent = () => {
     <ActiveUser>
       <Content>
         <CustomAvatar>
-          <img src="/images/review8.jpg" alt="jeron" />
+          <img src={user?.url} alt={user?.username} />
         </CustomAvatar>
         <Active>
-          <h4 className="username">Jeron</h4>
+          <h4 className="username">{user?.username}</h4>
           <div>
             <FiMoreHorizontal size={10} className="more" />
             <p>Active for chat</p>
